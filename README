@@ -1,0 +1,86 @@
+
+
+                                  README File of openSNP Data Processing Perl Scripts (Version - 01) and Algorithm
+              
+                                                             Date: July 11, 2019
+
+These scripts were developned by Dr. Jeff Chen at the Center for Public Health Genomics at the University of Virginia School of Medicine
+for data process of the opneSNP public available datasets for genetic associaiton study.
+
+openSNP Website: https://opensnp.org
+
+The downloadable dataset contains the following basic information: 
+
+     1. File name: opensnp_datadump.current.zip, file size: 29.8 G, total file no.: 4708, download date:July 2, 2019 
+
+     2. 23andme company has 3668 files,  among it,  52 are 23andme-exome-vcf.txt files
+
+     3. Ancestry company has 593 files
+
+     4. decodeme company has 5 binary files
+
+     5. IYG,  Inside Your Genome Project at the Wellcome Trust Sanger Institute 
+        has 9 binary files
+
+     6. genes-for-good in the School of Public Health at the University of Michigan 
+        has 9 binary files
+
+     7. Family Tree DNA Test (ftdna-illumina) by Gene by Gene company 
+         has 419 files
+
+The objective for this data processing is to get all workable 23andme SNP genotype data files for PLINK and KING analysis for genetic asscoiation study.
+
+The data processing direcory: /m/CPHG/KING/xc3m/
+
+This tar file contains 5 Perl scripts to process the openSNP dataset.
+
+(1) Count_File.pl                      ### for checking the data
+
+(2) Get_Make_bed_File.pl               ### Get good *.bed, *.bim, *.fam files
+
+(3) Make_bed_File.pl                   ### covert the 23andme txt SNP genotype files to PLINK binary files using PLINK 1.9 version
+
+(4) ZeroSizeFile.pl		       ### remove bad zero size *.bed, *.bim and *.fam files to clean data and QC for nexy step processing                 
+
+(5) Merge_bed_File.pl                  ### make the concatenated BIG final pulled *.bed files using PLINK 1.9
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Notes:  
+
+(1) The whole computational time is about 4 hours, with some manual data and Unix file system/direcory manipulations
+
+(2) The workspace and data processing directories need to be changes in the scripts when folks use different computer plateforms. 
+
+(3) Launch the merge file script, due to the large computation, it could break the computational pipe often in the middle of over 3 hours computational time.
+
+Thus, please lauch as ===>./Merge_bed_File.pl > terminal_output &, then check the computational process via ===> tail -f terminal_output.
+
+Running the script in the background, and check the "Done_Merge" and "Merge_File" directories" often to see the progress.
+
+(4) If stop runing in the middle, just reset the runing environment and start with the biggest and lasted successful run merge_files of merge(No.).bed, merge(No.).bim
+    merge(No.).fam, It needs to name the files as 23andme1.bed, 23andme.bim, and 23andme.fam to relaunch the computational process to complete the merge effort.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+The working directories are as follows:
+
+(1) 23andme_file  			# Originial genotype downloaded data files
+
+(2) 23andme_CVF_file 			# CVF file, which are not used in this analysis
+
+(3) 23andme_Run                          Originial direcotory to run plink 1.9 to convert 23andme files to binary files (*.bed, *.bin, *.fam)
+
+(4) 23andme_ZeroSizeFile                # Storage and bookkeep the zero size binary files produced by plink 1.9
+
+(5) Good_Make_Bed_File                  # Good binary files for merge operation
+
+(6) Merge_File                          # For plinl merge run
+
+(7) Failed_Merge_Run			# Bookkeeing for failed runs and relaunch the merge computation
+
+(8) missnp_file  			# Store of unsuccessful plink merge files --  *.missnp
+
+(9) Done_Merge				# Bookkeeping directory for sucessful merge runs
+
+(10) Final_Merged_File			# Final merged files -- the files are for KING and PLINK further analysis
